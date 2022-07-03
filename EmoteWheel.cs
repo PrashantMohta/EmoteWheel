@@ -25,6 +25,22 @@ namespace EmoteWheel
         public void OnLoadGlobal(GlobalSettings s) => settings = s;
         public GlobalSettings OnSaveGlobal() => settings;
 
+        private string getVersionSafely(){
+            if(typeof(HkmpPouch.Client) != null){
+                return Satchel.AssemblyUtils.GetAssemblyVersionHash();
+            }
+            return "Install HkmpPouch";
+        }
+        public override string GetVersion()
+        {
+            var version = "Install Satchel & HkmpPouch";
+            try{
+                version = getVersionSafely();
+            } catch(Exception e){
+                Modding.Logger.Log(e.ToString());
+            }
+            return version;
+        }
         public EmoteWheel()
         {
             LoadEmotes();
