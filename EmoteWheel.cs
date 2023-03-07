@@ -1,5 +1,5 @@
-﻿using System.IO;
-using HkmpPouch;
+﻿using HkmpPouch;
+using System.IO;
 using TMPro;
 
 namespace EmoteWheel
@@ -7,7 +7,7 @@ namespace EmoteWheel
     public class EmoteWheel : Mod, IGlobalSettings<GlobalSettings>, ICustomMenuMod
     {
         internal static EmoteWheel Instance;
-        internal static HkmpPipe HkmpPipe;
+        internal static PipeClient HkmpPipe;
 
         internal ObjectPoolManager<GameObject> EmotePool;
         internal ObjectPoolManager<GameObject> TextPool;
@@ -26,7 +26,7 @@ namespace EmoteWheel
         public GlobalSettings OnSaveGlobal() => settings;
 
         private string getVersionSafely(){
-            if(typeof(HkmpPouch.Client) != null){
+            if(typeof(HkmpPouch.PipeClient) != null){
                 return Satchel.AssemblyUtils.GetAssemblyVersionHash();
             }
             return "Install HkmpPouch";
@@ -105,14 +105,14 @@ namespace EmoteWheel
             TextPool = new ObjectPoolManager<GameObject>(20, TextGenerator);
             ModHooks.HeroUpdateHook += WheelUI.listenForInput;
             Instance = this;
-            HkmpPipe = new HkmpPipe("EmoteWheel", false);
+            HkmpPipe = new PipeClient("EmoteWheel");
             HkmpPipe.OnRecieve += (_, R) =>
                 {
-                    var p = R.packet;
-                    LogDebug($"{p.fromPlayer}:{p.eventData}");
-                    var player = HkmpPouch.Client.Instance.clientApi.ClientManager.GetPlayer(p.fromPlayer);
+                    var p = R.Data;
+                    LogDebug($"{p.FromPlayer}:{p.EventData}");
+                    var player = HkmpPipe.ClientApi.ClientManager.GetPlayer(p.FromPlayer);
                     if (player != null) {
-                        showEmote(p.eventData, player.PlayerContainer);
+                        showEmote(p.EventData, player.PlayerContainer);
                     }
                 };
             }
@@ -164,7 +164,7 @@ namespace EmoteWheel
             }
             var name = EmoteNames[Index];
             // broadcast emote to everyone
-            HkmpPipe.SendToAll(0, "", name, true, true);
+            HkmpPipe.Broadcast("", name, true, false);
             // show emote to current user
             showEmote(name, HeroController.instance.gameObject);
             lastEmoteTime = DateTime.Now;   
