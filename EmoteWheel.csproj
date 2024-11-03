@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <!-- Change this to the path of your modded HK installation -->
-    <HollowKnightRefs>D:\SteamLibrary\steamapps\common\Hollow Knight\hollow_knight_Data\Managed</HollowKnightRefs>
+    <HollowKnightRefs>E:\SteamLibrary\steamapps\common\Hollow Knight\hollow_knight_Data\Managed</HollowKnightRefs>
     <!-- Change this to the path where you want the ready-to-upload exports to be -->
     <ExportDir>D:/__Exports/</ExportDir>
     <!-- Uncomment this to generate a documentation file to be included with the mod -->
@@ -15,8 +15,8 @@
     <Product>EmoteWheel</Product>
     <Description>A Hollow Knight Mod</Description>
     <Copyright>Copyright ©  2022</Copyright>
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
+    <AssemblyVersion>1.1.2.0</AssemblyVersion>
+    <FileVersion>1.1.2.0</FileVersion>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
